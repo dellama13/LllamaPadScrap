@@ -1,0 +1,44 @@
+﻿<Window xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"  x:Class="LllamaPadScrap.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LllamaPadScrap"
+        xmlns:SigPlus="clr-namespace:SIGPLUSLib;assembly=Interop.SIGPLUSLib"
+        xmlns:SignSign="clr-namespace:SIGSIGNLib;assembly=Interop.SIGSIGNLib"
+       xmlns:formHost="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+
+        mc:Ignorable="d" Background="DarkGray"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel>
+
+        <formHost:WindowsFormsHost>
+            
+            
+            
+            
+        </formHost:WindowsFormsHost>
+
+        
+        
+
+
+
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  >
+            <Button x:Name="StartSig" Margin="15"
+                            
+                            Content="Sign" Width="125" Height="65"/>
+            <Button x:Name="ClearSig" Margin="15" 
+                            
+                            Content="Clear" Width="125" Height="65"/>
+            <Button x:Name="Submit" 
+                    Margin="15" Content="Submit" Width="125" Height="65"/>
+
+
+        </StackPanel>
+
+
+
+    </StackPanel>
+</Window>
