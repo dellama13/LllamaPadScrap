@@ -38,15 +38,12 @@
     <Reference Include="Interop.SIGPLUSLib, Version=2.24.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>obj\Debug\Interop.SIGPLUSLib.dll</HintPath>
+      <HintPath>.\Interop.SIGPLUSLib.dll</HintPath>
     </Reference>
     <Reference Include="Interop.SIGSIGNLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>obj\Debug\Interop.SIGSIGNLib.dll</HintPath>
-    </Reference>
-    <Reference Include="SigPlusNET">
-      <HintPath>..\..\..\..\..\Windows\SigPlus\NET\SigPlusNET.dll</HintPath>
+      <HintPath>.\Interop.SIGSIGNLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
