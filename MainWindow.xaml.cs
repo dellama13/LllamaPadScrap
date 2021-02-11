@@ -13,7 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SIGPLUSLib;
-
+using AxSIGPLUSLib;
+using System.IO;
+using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.Drawing;
 
 namespace LllamaPadScrap
 {
@@ -22,35 +26,40 @@ namespace LllamaPadScrap
     /// </summary>
     public partial class MainWindow : Window
     {
-        SigPlus LlamaSig = new SigPlus();
-        Byte ImageMaybe;
         
+        
+        AxSIGPLUSLib.AxSigPlus LlamaAxSig = new AxSigPlus();
+        
+        
+
+
+
         public MainWindow()
         {
             
-            InitializeComponent();
+        
             
-            LlamaSig.InitSigPlus();
-            LlamaSig.TabletComPort = 6;
-            LlamaSig.TabletInvisible = false;
-            LlamaSig.ImageFileFormat = 0;
-            LlamaSig.SetEventEnableMask(1);
+           InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.Manual;
+            var screen = Screen.AllScreens;
+            var testscreen = Screen.AllScreens[3];
+            var workingArea = testscreen.WorkingArea;
+            this.Left = workingArea.Left;
+            this.Top = workingArea.Top;
+            this.WindowStyle = WindowStyle.None;
+            this.WindowState = WindowState.Minimized;
+            this.WindowState = WindowState.Normal;
+//Need to work on Making this full screen borderless for the other app.
 
+            LlamaPadArea.Child = LlamaAxSig;
+            this.Loaded += MainWindow_Loaded;
 
-            LlamaSig.TabletXStart = 400;
-            LlamaSig.TabletXStop = 2400;
-            LlamaSig.TabletYStart = 350;
-            LlamaSig.TabletYStop = 1050;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
             
-            LlamaSig.TabletState = 1;
-            LlamaSig.EnableTabletCapture();
-            //doesn't fire. Woo.
-            LlamaSig.PenDown += LlamaSig_PenDown;
-            LlamaSig.Clicked += LlamaSig_PenDown;
-            LlamaPadArea.Child = LlamaSig.GetBitmapBufferBytes();
-            //ImageMaybe = LlamaSig.GetBitmapBufferBytes();
             
-            LlamaSig.LCDCaptureMode = 1;
         }
 
         private void LlamaSig_PenDown()
@@ -60,30 +69,85 @@ namespace LllamaPadScrap
 
         private void SubmitBtn(Object Snder, EventArgs E)
         {
-            LlamaSig.AboutBox();
-            var XSize = LlamaSig.TabletLogicalXSize;
-            var YSize = LlamaSig.TabletLogicalYSize;
-            MessageBox.Show("Tablet X/Y Size \nResults: " + "XSize = " + XSize.ToString() + "\nYSize = " + YSize.ToString(), "SigPad", MessageBoxButton.OK);
+            long mySize;
+            byte[] myArray;
+            LlamaAxSig.SigCompressionMode = 1;
+            LlamaAxSig.TabletState = 0; //turn off tablet
+            LlamaAxSig.JustifyMode = 5; //zoom signature to fit image size
+            LlamaAxSig.ImageXSize = 325; //image width in px
+            LlamaAxSig.ImageYSize = 135; //image height in px
+            LlamaAxSig.ImagePenWidth = 8; //image ink thickness in px
+ 
+
+            LlamaAxSig.BitMapBufferWrite();
+            mySize = LlamaAxSig.BitMapBufferSize();
+            myArray = new byte[mySize];
+            myArray = (byte[])LlamaAxSig.GetBitmapBufferBytes();
+            LlamaAxSig.BitMapBufferClose();
+            LlamaAxSig.ClearTablet();
+            MemoryStream ms = new MemoryStream(myArray);
+
+            System.Drawing.Image sigImage = System.Drawing.Image.FromStream(ms);
+            Bitmap tempbmp = new Bitmap(sigImage);
+            var BackgroundRM = System.Drawing.Color.FromArgb(213, 213, 213);
+            tempbmp.MakeTransparent(BackgroundRM);
+
+            SaveFileDialog LlamaSaves = new SaveFileDialog();
+            LlamaSaves.Filter = "Png Image|*.png";
+            LlamaSaves.Title = "Save Signature";
+            LlamaSaves.ShowDialog();
+
+            if(LlamaSaves.FileName != "")
+            {
+                
+                FileStream fs = (FileStream)LlamaSaves.OpenFile();
+                    
+                switch(LlamaSaves.FilterIndex)
+                {
+                    case 1 :
+                        tempbmp.Save(fs, ImageFormat.Bmp);
+                        break;
+                    case 2:
+                        tempbmp.Save(fs, ImageFormat.Png);
+                        break;
+
+                }
+
+                fs.Close();
+               
+
+
+
+            }
+
+
+
+            //sigImage.Save("C:\\mySig.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+            //sigImage.Save("C:\\mySig.jpg", System.Drawing.Imaging.ImageFormat.Jpeg); 
+            //sigImage.Save("C:\\mySig.tif", System.Drawing.Imaging.ImageFormat.Tiff);
         }
 
         private void BtnClicked(Object Sender, EventArgs E)
         {
-            var bob = LlamaSig.TabletComPort;
-            MessageBox.Show("Tablet Query Clicked? \nResults: " + bob.ToString(), "SigPad", MessageBoxButton.OK);
+           // var bob = LlamaAxSig.TabletComPort;
+            LlamaAxSig.TabletState = 1;
+            LlamaAxSig.SigCompressionMode = 0;
+            LlamaAxSig.BackColor = System.Drawing.Color.FromArgb(213, 213, 213);
+            //MessageBox.Show("Tablet Query Clicked? \nResults: " + bob.ToString(), "SigPad", MessageBoxButton.OK);
 
         }
 
         private void ClearSigBtn(Object Sender, EventArgs E)
         {
-            
-            var test = LlamaSig.TabletComTest;
-            MessageBox.Show("Connection Query Clicked? \nResults: " + test.ToString(), "SigPad", MessageBoxButton.OK);
+
+            LlamaAxSig.ClearTablet();
+            //MessageBox.Show("Connection Query Clicked? \nResults: " + test.ToString(), "SigPad", MessageBoxButton.OK);
 
         }
 
         private void LlamaSig_Clicked()
         {
-            MessageBox.Show("SigPad Clicked?", "SigPad", MessageBoxButton.OK);
+            System.Windows.MessageBox.Show("SigPad Clicked?", "SigPad", MessageBoxButton.OK);
 
 
         }

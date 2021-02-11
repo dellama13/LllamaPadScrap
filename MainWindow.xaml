@@ -4,38 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LllamaPadScrap"
-        xmlns:SigPlus="clr-namespace:SIGPLUSLib;assembly=Interop.SIGPLUSLib"
-        xmlns:SignSign="clr-namespace:SIGSIGNLib;assembly=Interop.SIGSIGNLib"
+        xmlns:SigPlus="clr-namespace:AxSIGPLUSLib;assembly=Ax_SigPlusWrapper"
+        
        xmlns:formHost="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
 
         mc:Ignorable="d" Background="DarkGray"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Llama_SigPlusPad" Height="600" Width="1024">
     <StackPanel>
+        
+        <Image Source="/resource/thistleshield.png" Height="125" HorizontalAlignment="left"/>
 
-            <Border BorderBrush="#286090" BorderThickness="2" Height="138" HorizontalAlignment="Left" Name="brdsignpad" VerticalAlignment="Top" Width="329" AllowDrop="False" OpacityMask="Black" Background="LightGray" Margin="12" >
-                <WindowsFormsHost Height="134"  HorizontalAlignment="Left" Margin="0" 
-                                  x:Name="LlamaPadArea" VerticalAlignment="Top"
-                                  Width="325" Background="LightGray" Foreground="Black" UseLayoutRounding="False">
+
+            <Border BorderBrush="#286090" BorderThickness="2" Height="135" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Width="325"
+                    AllowDrop="False" OpacityMask="Black" Background="Transparent" Margin="12" >
                 
+                
+                <WindowsFormsHost  HorizontalAlignment="Stretch" Margin="0"  VerticalAlignment="Stretch"
+                                  x:Name="LlamaPadArea"
+                                  Background="Transparent" Foreground="Black" UseLayoutRounding="False">
+
                     
                 </WindowsFormsHost>
-                </Border>
+                
+            
+            
+            </Border>
+
+
         
-        
 
 
 
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  >
-            <Button x:Name="StartSig" Margin="15" Click="BtnClicked"
-                            
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom"  >
+            <Button x:Name="StartSig" Click="BtnClicked"
+                    
                             Content="Sign" Width="125" Height="65"/>
-            <Button x:Name="ClearSig" Margin="15"  Click="ClearSigBtn"
-                            
+            <Button x:Name="ClearSig"   Click="ClearSigBtn"
+                            Margin="10"
                             Content="Clear" Width="125" Height="65"/>
             <Button x:Name="Submit" 
+                    
                     Click="SubmitBtn"
-                    Margin="15" Content="Submit" Width="125" Height="65"/>
+                    Content="Submit" Width="125" Height="65"/>
 
 
         </StackPanel>
