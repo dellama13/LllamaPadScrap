@@ -34,16 +34,23 @@ namespace LllamaPadScrap
             LlamaSig.TabletComPort = 6;
             LlamaSig.TabletInvisible = false;
             LlamaSig.ImageFileFormat = 0;
-            
-            LlamaSig.SetSigWindow(0, 0, 0, 0, 0);
+            LlamaSig.SetEventEnableMask(1);
 
+
+            LlamaSig.TabletXStart = 400;
+            LlamaSig.TabletXStop = 2400;
+            LlamaSig.TabletYStart = 350;
+            LlamaSig.TabletYStop = 1050;
             
             LlamaSig.TabletState = 1;
             LlamaSig.EnableTabletCapture();
             //doesn't fire. Woo.
             LlamaSig.PenDown += LlamaSig_PenDown;
-            
+            LlamaSig.Clicked += LlamaSig_PenDown;
+            LlamaPadArea.Child = LlamaSig.GetBitmapBufferBytes();
             //ImageMaybe = LlamaSig.GetBitmapBufferBytes();
+            
+            LlamaSig.LCDCaptureMode = 1;
         }
 
         private void LlamaSig_PenDown()
@@ -68,6 +75,7 @@ namespace LllamaPadScrap
 
         private void ClearSigBtn(Object Sender, EventArgs E)
         {
+            
             var test = LlamaSig.TabletComTest;
             MessageBox.Show("Connection Query Clicked? \nResults: " + test.ToString(), "SigPad", MessageBoxButton.OK);
 
