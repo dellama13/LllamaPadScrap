@@ -58,8 +58,19 @@ namespace LllamaPadScrap
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
-            
+            var workingdir = System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
+            var test = workingdir + "\\resource\\TestNDA.pdf";
+            //System.Windows.MessageBox.Show(test);
+            if (File.Exists(test))
+            {
+                LlamaBrowser.Address = test;
+                //System.Windows.MessageBox.Show("PDF Found");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("PDF Not Found :(");
+            }
+
         }
 
         private void LlamaSig_PenDown()
@@ -148,20 +159,12 @@ namespace LllamaPadScrap
 
         }
 
-        private void LoadPDF_Click(object sender, RoutedEventArgs e)
+        private void ScrollDownMaybe(object sender, RoutedEventArgs e)
             
         {
-            var workingdir = System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
-            var test = workingdir + "\\resource\\TestNDA.pdf";
-            System.Windows.MessageBox.Show(test);
-            if(File.Exists(test))
-            {
-                System.Windows.MessageBox.Show("PDF Found");
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("PDF Not Found :(");
-            }
+            
+      
+
         }
     }
 }
