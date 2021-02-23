@@ -92,7 +92,7 @@ namespace LllamaPadScrap
             var BackgroundRM = System.Drawing.Color.FromArgb(213, 213, 213);
             tempbmp.MakeTransparent(BackgroundRM);
 
-            SaveFileDialog LlamaSaves = new SaveFileDialog();
+           SaveFileDialog LlamaSaves = new SaveFileDialog();
             LlamaSaves.Filter = "Png Image|*.png";
             LlamaSaves.Title = "Save Signature";
             LlamaSaves.ShowDialog();
@@ -107,17 +107,13 @@ namespace LllamaPadScrap
                     case 1 :
                         tempbmp.Save(fs, ImageFormat.Bmp);
                         break;
-                    case 2:
+                    case  2:
                         tempbmp.Save(fs, ImageFormat.Png);
                         break;
 
                 }
 
                 fs.Close();
-               
-
-
-
             }
 
 
@@ -150,6 +146,12 @@ namespace LllamaPadScrap
             System.Windows.MessageBox.Show("SigPad Clicked?", "SigPad", MessageBoxButton.OK);
 
 
+        }
+
+        private void LoadPDF_Click(object sender, RoutedEventArgs e)
+        {
+            var test = System.IO.Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "\\resource\\TestNDA.pdf");
+            System.Windows.MessageBox.Show(test);
         }
     }
 }
