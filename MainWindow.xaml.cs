@@ -149,9 +149,19 @@ namespace LllamaPadScrap
         }
 
         private void LoadPDF_Click(object sender, RoutedEventArgs e)
+            
         {
-            var test = System.IO.Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "\\resource\\TestNDA.pdf");
+            var workingdir = System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
+            var test = workingdir + "\\resource\\TestNDA.pdf";
             System.Windows.MessageBox.Show(test);
+            if(File.Exists(test))
+            {
+                System.Windows.MessageBox.Show("PDF Found");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("PDF Not Found :(");
+            }
         }
     }
 }
