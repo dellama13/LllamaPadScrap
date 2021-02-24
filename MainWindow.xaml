@@ -78,8 +78,12 @@
                     Click="SubmitBtn"
                     Margin="15,0,5,15"
                     Content="Submit" Width="125" Height="65"/>
-            
 
+            <Button x:Name="Open" 
+                    
+                    Click="OpenFile"
+                    Margin="0,0,0,15"
+                    Content="Open" Width="100" Height="65"/>
 
         </StackPanel>
         
