@@ -22,6 +22,10 @@ using PdfSharp;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
+using System.Management;
+using WindowsDisplayAPI;
+using WindowsDisplayAPI.DisplayConfig;
+using WindowsDisplayAPI.Native.DisplayConfig;
 
 namespace LllamaPadScrap
 {
@@ -33,7 +37,7 @@ namespace LllamaPadScrap
         
         
         AxSIGPLUSLib.AxSigPlus LlamaAxSig = new AxSigPlus();
-        private MemoryStream _SigStream;
+        
         private Bitmap _SigTransparent;
         private string PDFPath;
         
@@ -48,14 +52,26 @@ namespace LllamaPadScrap
            InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.Manual;
             var screen = Screen.AllScreens;
-            var testscreen = Screen.AllScreens[3];
-            var workingArea = testscreen.WorkingArea;
-            this.Left = workingArea.Left;
-            this.Top = workingArea.Top;
-            this.WindowStyle = WindowStyle.None;
-            this.WindowState = WindowState.Minimized;
-            this.WindowState = WindowState.Normal;
-//Need to work on Making this full screen borderless for the other app.
+            Screen testscreen;
+            
+            testscreen = screen.Where(x => (x.WorkingArea.Width == 1024) && (x.WorkingArea.Height == 560)).FirstOrDefault();
+
+            if (testscreen != null)
+            {
+                var workingArea = testscreen.WorkingArea;
+                this.Left = workingArea.Left;
+                this.Top = workingArea.Top;
+                this.Width = workingArea.Width;
+                this.Height = workingArea.Height;
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Minimized;
+                this.WindowState = WindowState.Normal;
+            }
+            //Need to work on Making this full screen borderless for the other app.
+
+
+            
+
 
             LlamaPadArea.Child = LlamaAxSig;
             this.Loaded += MainWindow_Loaded;
@@ -64,6 +80,7 @@ namespace LllamaPadScrap
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            this.WindowState = WindowState.Maximized;
             var workingdir = System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
             var tempPDFPath = workingdir + "\\resource\\TestNDA.pdf";
             //System.Windows.MessageBox.Show(test);
@@ -263,20 +280,21 @@ namespace LllamaPadScrap
 
         }
 
-        private void LlamaSig_Clicked()
+
+
+        private void TestBtn_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.MessageBox.Show("SigPad Clicked?", "SigPad", MessageBoxButton.OK);
+
+            var paths = WindowsDisplayAPI.DisplayConfig.PathInfo.GetActivePaths();
 
 
         }
 
-        private void ScrollDownMaybe(object sender, RoutedEventArgs e)
-            
-        {
-            
-      
 
-        }
+
+
+
+
 
     }
 }
